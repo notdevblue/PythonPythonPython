@@ -12,6 +12,7 @@ from pathlib import Path; # stem
 clients  = {};
 clientId = 0;
 handlers = {};
+port = 38000;
 
 # dynamic handler importing
 for (dirpath, dirnames, filenames) in walk("./handlers"):
@@ -24,6 +25,8 @@ for (dirpath, dirnames, filenames) in walk("./handlers"):
       print(f"Loaded {name}");
    break;
 #end for
+
+print("Server started on port " + port);
 
 class GLOBAL:
    @staticmethod
@@ -39,12 +42,6 @@ class GLOBAL:
 #end class GLOBAL;
 
 gObject = GLOBAL();
-
-# async def echo(websocket):
-#    async for message in websocket:
-#       data = message;
-#       print("Client: " + data);
-#       await websocket.send("Echo: " + data);
 
 async def on(ws):
    global clientId;
@@ -73,7 +70,7 @@ async def on(ws):
 #end def on(ws);
 
 async def main():
-   async with websockets.serve(on, "localhost", 38000):
+   async with websockets.serve(on, "localhost", port):
       await asyncio.Future(); # run forever
    pass;
 #end def main();

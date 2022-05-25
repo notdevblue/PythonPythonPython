@@ -1,27 +1,29 @@
-import json
-import time;
-import websocket
+import json;
+import threading;
+from websocket import create_connection;
 
-def on_message(ws, message):
-   print(message);
+ws = create_connection("ws://localhost:38000");
 
-def on_error(ws, error):
-   print(error);
-
-def on_open(ws):
-   print("Opened Connection");
+def send(ws):
    while True:
-      buffer = str(input("Message: "));
+      data = str(input());
       ws.send(json.dumps({
          "type": "echo",
-         "payload": buffer
+         "payload": data
       }));
+# end def send(ws);
+
+def recv(ws):
+   while True:
+      print("\r\nMessage: " + ws.recv());
+# end def recv(ws);
+
+send_thread = threading.Thread(target=send, args=(ws,));
+recv_thread = threading.Thread(target=recv, args=(ws,));
+
+send_thread.start();
+recv_thread.start();
 
 
-if __name__ == "__main__":
-   # websocket.enableTrace(True);
-   ws = websocket.WebSocketApp("ws://localhost:38000",
-                               on_message=on_message,
-                               on_open=on_open,
-                               on_error=on_error);
-   ws.run_forever();
+send_thread.join();
+recv_thread.join();
