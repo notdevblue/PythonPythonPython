@@ -1,70 +1,27 @@
-import asyncio
-import threading;
-import websocket;
-import json; # packet
+import json
+import time;
+import websocket
 
-send_thread = 0;
-recv_thread = 0;
-main_thread = 0;
-ws = 0;
-lock = threading.Lock();
+def on_message(ws, message):
+   print(message);
 
-# async def on():
-#    global send_thread;
-#    global recv_thread;
-#    global ws;
+def on_error(ws, error):
+   print(error);
 
-#    ws = await websockets.connect("ws://localhost:38000");
-#    # with websockets.connect("ws://localhost:38000") as ws:
-   
+def on_open(ws):
+   print("Opened Connection");
+   while True:
+      buffer = str(input("Message: "));
+      ws.send(json.dumps({
+         "type": "echo",
+         "payload": buffer
+      }));
 
-#    send_thread = threading.Thread(target=asyncio.run, args=(send(),));
-#    recv_thread = threading.Thread(target=asyncio.run, args=(recv(),));
 
-#    send_thread.start();
-#    # recv_thread.start();
-
-#    send_thread.join();
-#    # recv_thread.join();
-
-# # def send_caller():
-# #    loop = asyncio.new_event_loop();
-# #    asyncio.set_event_loop(loop);
-# #    loop.run_until_complete(send());
-
-# #    loop.close();
-# #    pass;
-
-# # def recv_caller():
-# #    loop = asyncio.new_event_loop();
-# #    asyncio.set_event_loop(loop);
-# #    loop.run_until_complete(recv());
-
-# #    loop.close();
-# #    pass;
-
-# async def send():
-#    while True:
-#       data = str(input("Input: "));
-
-#       lock.acquire();
-#       await ws.send(json.dumps({
-#          "type": "echo",
-#          "payload": data
-#       }));
-#       lock.release();
-#    #end while True;
-# #end dev send(ws);
-
-# async def recv():
-#    while True:
-#       lock.acquire();
-#       print(await ws.recv());
-#       lock.release();
-#    #end while True;
-# #end def recv(ws);
-
-# if __name__ == "__main__":
-#    asyncio.run(on());
-# #end if
-
+if __name__ == "__main__":
+   # websocket.enableTrace(True);
+   ws = websocket.WebSocketApp("ws://localhost:38000",
+                               on_message=on_message,
+                               on_open=on_open,
+                               on_error=on_error);
+   ws.run_forever();

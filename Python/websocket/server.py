@@ -1,4 +1,5 @@
-import asyncio;
+import asyncio
+from asyncore import dispatcher;
 import websockets;
 import json; # packet
 
@@ -54,6 +55,7 @@ async def on(ws):
    ws.GLOBAL = gObject;
    
    print(f"Client {ws.clientId} connected.");
+   await ws.send("Hello");
 
    async for message in ws:
       try:
