@@ -26,7 +26,7 @@ for (dirpath, dirnames, filenames) in walk("./handlers"):
    break;
 #end for
 
-print("Server started on port " + port);
+print(f"Server started on port {port}.");
 
 class GLOBAL:
    @staticmethod
