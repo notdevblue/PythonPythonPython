@@ -33,10 +33,6 @@ def index(number):
    return render_template("index.html", template_name="name");
 #end def index(number);
 
-@app.route("/readme")
-def readme():
-   return render_template("README.md");
-
 # @app.context_processor
 # def keep_change_h_tag():
 #    htag = 1;
