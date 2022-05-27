@@ -55,7 +55,6 @@ $변수명
 ```
 + conn : DB 와의 연결
 + cur  : 커셔 (conn.cursor())
-
 ```
 
 <details>
