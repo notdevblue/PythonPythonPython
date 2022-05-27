@@ -19,11 +19,11 @@ def savescore(cur, conn):
       vals = (name, score,);
       cur.execute(sql, vals);
       conn.commit();
-      return "ADDED";
+      return "#MESSAGE#$MSG=Added;";
 
    else:
       sql = "UPDATE pypypy.Clicker SET `score`=%s WHERE `id`=%s";
       vals = (score, row[0]);
       cur.execute(sql, vals);
       conn.commit();
-      return "UPDATED"
+      return "#MESSAGE#$MSG=Updated;"

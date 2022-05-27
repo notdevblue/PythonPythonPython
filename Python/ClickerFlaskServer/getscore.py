@@ -17,7 +17,7 @@ def getscore(cur, conn):
    row = cur.fetchall();
 
    if (row == None):
-      return "ERROR";
+      return "#ERROR#;";
    
    
    for item in row:
